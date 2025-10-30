@@ -1,0 +1,76 @@
+Anomaly Detection Benchmark Results
+================================================================================
+Dataset: 81570 training samples, 81570 test samples (token-level)
+Features: 768 binary features
+Anomaly ratio in test set (token-level): 0.0051
+Number of sentences: 4518
+Anomaly ratio in test set (sentence-level): 0.0870
+================================================================================
+
+Algorithm    Token ROC AUC      Token PR AUC       Sent ROC AUC       Sent PR AUC        Time      
+----------------------------------------------------------------------------------------------
+**********************************************************************
+IForest - Parameter search
+Grid search parameters: {'max_samples': [16, 32, 64, 128, 256, 512], 'n_estimators': [200]}
+Parameters                               Token ROC AUC      Token PR AUC       Sent ROC AUC       Sent PR AUC       
+----------------------------------------------------------------------------------------------------------------
+{'max_samples': 16, 'n_estimators': 200} 0.8059±0.0338    0.0158±0.0037    0.5364±0.0284    0.0905±0.0070
+{'max_samples': 32, 'n_estimators': 200} 0.8167±0.0408    0.0168±0.0046    0.5511±0.0295    0.0937±0.0067
+{'max_samples': 64, 'n_estimators': 200} 0.8072±0.0319    0.0153±0.0034    0.5512±0.0339    0.0952±0.0078
+{'max_samples': 128, 'n_estimators': 200} 0.7820±0.0305    0.0128±0.0023    0.5204±0.0231    0.0872±0.0040
+{'max_samples': 256, 'n_estimators': 200} 0.7607±0.0171    0.0111±0.0011    0.5046±0.0126    0.0846±0.0036
+{'max_samples': 512, 'n_estimators': 200} 0.7517±0.0110    0.0104±0.0006    0.5017±0.0080    0.0851±0.0019
+
+Best parameters (selected by token ROC AUC):
+{'max_samples': 32, 'n_estimators': 200}
+Token-level: ROC AUC: 0.8167 ± 0.0408, PR AUC: 0.0168 ± 0.0046
+Sentence-level: ROC AUC: 0.5511 ± 0.0295, PR AUC: 0.0937 ± 0.0067
+
+IForest      0.8167 ± 0.0408    0.0168 ± 0.0046    0.5511 ± 0.0295    0.0937 ± 0.0067    117.51s   
+**********************************************************************
+ECOD - Using default parameters
+Token-level: ROC AUC: 0.8229 ± 0.0000, PR AUC: 0.0152 ± 0.0000
+Sentence-level: ROC AUC: 0.5522 ± 0.0000, PR AUC: 0.0933 ± 0.0000
+
+ECOD         0.8229 ± 0.0000    0.0152 ± 0.0000    0.5522 ± 0.0000    0.0933 ± 0.0000    38.84s    
+**********************************************************************
+TextCore - Parameter search
+Grid search parameters: {'n_neighbors': [1]}
+Parameters                               Token ROC AUC      Token PR AUC       Sent ROC AUC       Sent PR AUC       
+----------------------------------------------------------------------------------------------------------------
+{'n_neighbors': 1}                       0.7822±0.0000    0.0160±0.0000    0.5448±0.0000    0.0925±0.0000
+
+Best parameters (selected by token ROC AUC):
+{'n_neighbors': 1}
+Token-level: ROC AUC: 0.7822 ± 0.0000, PR AUC: 0.0160 ± 0.0000
+Sentence-level: ROC AUC: 0.5448 ± 0.0000, PR AUC: 0.0925 ± 0.0000
+
+TextCore     0.7822 ± 0.0000    0.0160 ± 0.0000    0.5448 ± 0.0000    0.0925 ± 0.0000    53.66s    
+
+
+Final Results Summary:
+================================================================================
+IForest:
+  Best parameters: {'max_samples': 32, 'n_estimators': 200}
+  Token ROC AUC: 0.8167 ± 0.0408
+  Token PR AUC: 0.0168 ± 0.0046
+  Sentence ROC AUC: 0.5511 ± 0.0295
+  Sentence PR AUC: 0.0937 ± 0.0067
+  Runtime: 117.51s
+
+ECOD:
+  Best parameters: {}
+  Token ROC AUC: 0.8229 ± 0.0000
+  Token PR AUC: 0.0152 ± 0.0000
+  Sentence ROC AUC: 0.5522 ± 0.0000
+  Sentence PR AUC: 0.0933 ± 0.0000
+  Runtime: 38.84s
+
+TextCore:
+  Best parameters: {'n_neighbors': 1}
+  Token ROC AUC: 0.7822 ± 0.0000
+  Token PR AUC: 0.0160 ± 0.0000
+  Sentence ROC AUC: 0.5448 ± 0.0000
+  Sentence PR AUC: 0.0925 ± 0.0000
+  Runtime: 53.66s
+
