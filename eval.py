@@ -254,12 +254,12 @@ def run_anomaly_detection_benchmark(X_train, X_test, y_test, sentence_info=None,
     n_features = X_train.shape[1]
     
     detectors = {
-        # 'LOF': {
-        #     'class': LOF,
-        #     'params': {
-        #         'n_neighbors': [5, 10, 20, 40],
-        #     }
-        # },
+        'LOF': {
+            'class': LOF,
+            'params': {
+                'n_neighbors': [5, 10, 20, 40],
+            }
+        },
         'IForest': {
             'class': IForest,
             'params': {
@@ -271,36 +271,33 @@ def run_anomaly_detection_benchmark(X_train, X_test, y_test, sentence_info=None,
             'class': ECOD,
             'params': {}
         },
-        'TextCore':{
-            'class': TextCore,
+        'DeepSVDD': {
+            'class': DeepSVDD,
             'params': {
-            'n_neighbors':[1]
+                'hidden_neurons': [[128, 64], [64, 32], [32, 16]],
+                'n_features': [n_features]
             }
+        },
+        'AutoEncoder': {
+            'class': AutoEncoder,
+            'params': {
+                'hidden_neuron_list': [[128, 64], [64, 32], [32, 16]],
+                'device':['cuda']
+            }
+        },
+        'LUNAR': {
+            'class': LUNAR,
+            'params': {
+                'n_neighbours': [5, 10, 20, 40],
+                'device':['cuda']
+            }
+        },
+            'TextCore':{
+        'class': TextCore,
+        'params': {
+        'n_neighbors':[1]
         }
-        # 'COPOD': {
-        #     'class': COPOD,
-        #     'params': {}
-        # },
-        # 'DeepSVDD': {
-        #     'class': DeepSVDD,
-        #     'params': {
-        #         'hidden_neurons': [[128, 64], [64, 32], [32, 16]],
-        #         'n_features': [n_features]
-        #     }
-        # },
-        # 'AutoEncoder': {
-        #     'class': AutoEncoder,
-        #     'params': {
-        #         'hidden_neuron_list': [[128, 64], [64, 32], [32, 16]],
-        #         'device':['mps']
-        #     }
-        # },
-        # 'LUNAR': {
-        #     'class': LUNAR,
-        #     'params': {
-        #         'n_neighbours': [5, 10, 20, 40],
-        #     }
-        # },
+        }
         # 'DIF': {
         #     'class': DIF,
         #     'params': {
@@ -400,3 +397,23 @@ def run_anomaly_detection_benchmark(X_train, X_test, y_test, sentence_info=None,
     
     print(f"\nResults saved to {result_file}")
     return results
+
+
+def split_anomaly_data(X, y, z, train_ratio=0.5, random_state=42):
+    y = np.array(y)
+    n_train = int(len(X) * train_ratio)
+    
+    normal_indices = np.where(y == 0)[0]
+    
+    np.random.seed(random_state)
+    train_indices = np.random.choice(normal_indices, size=n_train, replace=False)
+    
+    test_indices = np.setdiff1d(np.arange(len(X)), train_indices)
+    
+    X_train = [X[i] for i in train_indices]
+    y_train = y[train_indices]
+    X_test = [X[i] for i in test_indices]
+    y_test = y[test_indices]
+    z_train = [z[i] for i in train_indices]
+    z_test = [z[i] for i in test_indices]
+    return X_train, y_train, X_test, y_test, z_train, z_test

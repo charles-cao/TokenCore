@@ -1,0 +1,89 @@
+Anomaly Detection Benchmark Results
+================================================================================
+Dataset: 40377 training samples, 41193 test samples (token-level)
+Features: 768 binary features
+Anomaly ratio in test set (token-level): 0.0101
+Number of sentences: 2259
+Anomaly ratio in test set (sentence-level): 0.1740
+================================================================================
+
+Algorithm    Token ROC AUC      Token PR AUC       Sent ROC AUC       Sent PR AUC        Time      
+----------------------------------------------------------------------------------------------
+**********************************************************************
+LOF - Parameter search
+Grid search parameters: {'n_neighbors': [5, 10, 20, 40]}
+Parameters                               Token ROC AUC      Token PR AUC       Sent ROC AUC       Sent PR AUC       
+----------------------------------------------------------------------------------------------------------------
+{'n_neighbors': 5}                       0.5315±0.0000    0.0098±0.0000    0.6185±0.0000    0.3142±0.0000
+{'n_neighbors': 10}                      0.4845±0.0000    0.0089±0.0000    0.6127±0.0000    0.3090±0.0000
+{'n_neighbors': 20}                      0.4042±0.0000    0.0076±0.0000    0.5879±0.0000    0.2720±0.0000
+{'n_neighbors': 40}                      0.3735±0.0000    0.0072±0.0000    0.5640±0.0000    0.2362±0.0000
+
+Best parameters (selected by token ROC AUC):
+{'n_neighbors': 5}
+Token-level: ROC AUC: 0.5315 ± 0.0000, PR AUC: 0.0098 ± 0.0000
+Sentence-level: ROC AUC: 0.6185 ± 0.0000, PR AUC: 0.3142 ± 0.0000
+
+LOF          0.5315 ± 0.0000    0.0098 ± 0.0000    0.6185 ± 0.0000    0.3142 ± 0.0000    102.82s   
+**********************************************************************
+IForest - Parameter search
+Grid search parameters: {'max_samples': [16, 32, 64, 128, 256, 512], 'n_estimators': [200]}
+Parameters                               Token ROC AUC      Token PR AUC       Sent ROC AUC       Sent PR AUC       
+----------------------------------------------------------------------------------------------------------------
+{'max_samples': 16, 'n_estimators': 200} 0.7897±0.0228    0.0266±0.0026    0.5287±0.0105    0.1771±0.0064
+{'max_samples': 32, 'n_estimators': 200} 0.8073±0.0426    0.0298±0.0085    0.5349±0.0325    0.1778±0.0111
+{'max_samples': 64, 'n_estimators': 200} 0.8240±0.0209    0.0328±0.0060    0.5501±0.0303    0.1861±0.0158
+{'max_samples': 128, 'n_estimators': 200} 0.8025±0.0121    0.0273±0.0020    0.5327±0.0115    0.1768±0.0033
+{'max_samples': 256, 'n_estimators': 200} 0.7815±0.0283    0.0247±0.0043    0.5236±0.0223    0.1754±0.0089
+{'max_samples': 512, 'n_estimators': 200} 0.7582±0.0269    0.0218±0.0031    0.5091±0.0196    0.1718±0.0079
+
+Best parameters (selected by token ROC AUC):
+{'max_samples': 64, 'n_estimators': 200}
+Token-level: ROC AUC: 0.8240 ± 0.0209, PR AUC: 0.0328 ± 0.0060
+Sentence-level: ROC AUC: 0.5501 ± 0.0303, PR AUC: 0.1861 ± 0.0158
+
+IForest      0.8240 ± 0.0209    0.0328 ± 0.0060    0.5501 ± 0.0303    0.1861 ± 0.0158    56.63s    
+**********************************************************************
+ECOD - Using default parameters
+Token-level: ROC AUC: 0.8186 ± 0.0000, PR AUC: 0.0289 ± 0.0000
+Sentence-level: ROC AUC: 0.5461 ± 0.0000, PR AUC: 0.1810 ± 0.0000
+
+ECOD         0.8186 ± 0.0000    0.0289 ± 0.0000    0.5461 ± 0.0000    0.1810 ± 0.0000    18.49s    
+**********************************************************************
+DeepSVDD - Parameter search
+Grid search parameters: {'hidden_neurons': [[128, 64], [64, 32], [32, 16]], 'n_features': [768]}
+Parameters                               Token ROC AUC      Token PR AUC       Sent ROC AUC       Sent PR AUC       
+----------------------------------------------------------------------------------------------------------------
+{'hidden_neurons': [128, 64], 'n_features': 768} 0.6808±0.1375    0.0230±0.0186    0.4882±0.0790    0.1705±0.0278
+{'hidden_neurons': [64, 32], 'n_features': 768} 0.5721±0.1207    0.0127±0.0062    0.4552±0.0304    0.1618±0.0104
+{'hidden_neurons': [32, 16], 'n_features': 768} 0.6275±0.1644    0.0188±0.0139    0.4907±0.0575    0.1723±0.0196
+
+Best parameters (selected by token ROC AUC):
+{'hidden_neurons': [128, 64], 'n_features': 768}
+Token-level: ROC AUC: 0.6808 ± 0.1375, PR AUC: 0.0230 ± 0.0186
+Sentence-level: ROC AUC: 0.4882 ± 0.0790, PR AUC: 0.1705 ± 0.0278
+
+DeepSVDD     0.6808 ± 0.1375    0.0230 ± 0.0186    0.4882 ± 0.0790    0.1705 ± 0.0278    468.23s   
+**********************************************************************
+AutoEncoder - Parameter search
+Grid search parameters: {'hidden_neuron_list': [[128, 64], [64, 32], [32, 16]], 'device': ['cuda']}
+Parameters                               Token ROC AUC      Token PR AUC       Sent ROC AUC       Sent PR AUC       
+----------------------------------------------------------------------------------------------------------------
+{'device': 'cuda', 'hidden_neuron_list': [128, 64]} 0.3846±0.0000    0.0074±0.0000    0.4578±0.0000    0.1715±0.0000
+{'device': 'cuda', 'hidden_neuron_list': [64, 32]} 0.3321±0.0000    0.0068±0.0000    0.4572±0.0000    0.1716±0.0000
+{'device': 'cuda', 'hidden_neuron_list': [32, 16]} 0.3044±0.0000    0.0066±0.0000    0.4615±0.0000    0.1713±0.0000
+
+Best parameters (selected by token ROC AUC):
+{'device': 'cuda', 'hidden_neuron_list': [128, 64]}
+Token-level: ROC AUC: 0.3846 ± 0.0000, PR AUC: 0.0074 ± 0.0000
+Sentence-level: ROC AUC: 0.4578 ± 0.0000, PR AUC: 0.1715 ± 0.0000
+
+AutoEncoder  0.3846 ± 0.0000    0.0074 ± 0.0000    0.4578 ± 0.0000    0.1715 ± 0.0000    373.90s   
+**********************************************************************
+LUNAR - Parameter search
+Grid search parameters: {'n_neighbours': [5, 10, 20, 40]}
+Parameters                               Token ROC AUC      Token PR AUC       Sent ROC AUC       Sent PR AUC       
+----------------------------------------------------------------------------------------------------------------
+{'n_neighbours': 5}                      0.6577±0.0249    0.0133±0.0010    0.5363±0.0064    0.1923±0.0025
+{'n_neighbours': 10}                     0.6516±0.0188    0.0130±0.0008    0.5342±0.0068    0.1918±0.0030
+{'n_neighbours': 20}                     0.6743±0.0078    0.0139±0.0004    0.5428±0.0041    0.1952±0.0017
