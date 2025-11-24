@@ -5,7 +5,7 @@ class TextCore:
     """
     TextCore anomaly detector based on nearest neighbor distances
     """
-    def __init__(self, n_neighbors=1, aggregation='mean'):
+    def __init__(self, n_neighbors=1, aggregation='max'):
         """
         Parameters
         ----------
