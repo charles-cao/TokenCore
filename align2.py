@@ -31,7 +31,7 @@ def print_tokenization_alignment(tokenizer, tokens):
             print(f"  Token {word_idx:2} '{original_token:10}' -> subword '{sub_token:10}' at position {i} (used)")
             current_word = word_idx
         else:
-            print(f"           {' ':10}     subword '{sub_token:10}' at position {i} (skipped)")
+            print(f"{' ':10} subword '{sub_token:10}' at position {i} (skipped)")
 
 
 def extract_word_embeddings(
@@ -40,6 +40,7 @@ def extract_word_embeddings(
     all_tokens,
     all_labels=None,
     model_name="bert-base-cased",
+    local_cache_dir = r"D:\models\qwen",
     device=None,
 ):
     """
@@ -49,7 +50,7 @@ def extract_word_embeddings(
     if device is None:
         device = "cuda" if torch.cuda.is_available() else "cpu"
     print(f"Using device: {device}")
-    local_cache_dir = "D:\model"
+    # local_cache_dir = r"D:\models\qwen"
 
     if tokenizer is None:
         tokenizer = AutoTokenizer.from_pretrained(model_name, cache_dir=local_cache_dir)
@@ -84,6 +85,7 @@ def extract_word_embeddings(
 
             word_ids = encoded.word_ids(batch_index=0)
 # --------------------------------------------------------------------------------------------
+            # 忽略subword后续词汇
             # sentence_data = []
             # previous_word_idx = None
 
@@ -116,11 +118,11 @@ def extract_word_embeddings(
                     continue  # Skip [CLS], [SEP], etc.
 
                 if word_idx != previous_word_idx:
-                    # 当进入新词时，先输出前一个词的平均 embedding
+                    # 当进入新词时，先输出前一个词的max embedding
                     if current_subwords:
                         avg_emb = np.max(np.stack(current_subwords), axis=0)
                         sentence_data.append({
-                            "token": current_token,
+                            "token": current_token, 
                             "embedding": avg_emb,
                             "label": current_label,
                             "subword_position": current_positions,
