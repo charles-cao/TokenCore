@@ -9,7 +9,7 @@ TokenCore is a memory-bank method for **token-level text anomaly detection**: in
 
 The three benchmark datasets are hosted on the Hugging Face Hub:
 
-👉 **https://huggingface.co/datasets/charles-cao/TokenCore**
+👉 **[https://huggingface.co/datasets/charles-cao/TokenAD](https://huggingface.co/datasets/Charles-Cao/TokenAD)**
 
 Each dataset provides both document-level and token-level anomaly annotations.
 
@@ -32,9 +32,9 @@ pip install -r requirements.txt
 ## Quick Start
 
 ```python
-from TextCore import TextCore
+from TokenCore import TextCore
 
-model = TextCore()
+model = TokenCore()
 
 # Fit on normal token embeddings
 model.fit(X_train)
