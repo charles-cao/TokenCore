@@ -1,9 +1,9 @@
 from sklearn.neighbors import NearestNeighbors
 import numpy as np
 
-class TextCore:
+class TokenCore:
     """
-    TextCore anomaly detector based on nearest neighbor distances
+    TokenCore anomaly detector based on nearest neighbor distances
     """
     def __init__(self, n_neighbors=1, aggregation='max'):
         """
