@@ -50,7 +50,7 @@ scores = model.decision_function(X_test)
 ```
 TokenCore/
 ├── data/           # Benchmark datasets (also on Hugging Face Hub)
-├── TextCore.py     # TokenCore method implementation
+├── TokenCore.py     # TokenCore method implementation
 ├── Demo.ipynb      # End-to-end demo of the key steps
 └── README.md
 ```
